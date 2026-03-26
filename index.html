@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>67chan</title>
+    <style>
+        /* Yotsuba B (Classic 4chan) Theme */
+        body {
+            background-color: #FFFFEE;
+            color: #800000;
+            font-family: arial, helvetica, sans-serif;
+            font-size: 10pt;
+            margin: 0;
+            padding: 5px;
+        }
+        a { color: #0000EE; text-decoration: none; }
+        a:hover { color: #DD0000; }
+        hr { border: 0; border-top: 1px solid #D9BFB7; margin: 10px 0; }
+        
+        /* Top Navigation Bar */
+        .boardList { font-size: 9pt; margin-bottom: 10px; text-align: left; }
+        
+        /* ======== Home Page Styles ======== */
+        #homePage { text-align: center; margin-top: 30px; }
+        .logo-container { margin-bottom: 20px; }
+        .logo-text { 
+            font-size: 36px; 
+            font-weight: bold; 
+            color: #AF0A0F; 
+            letter-spacing: 2px; 
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .box {
+            border: 1px solid #D9BFB7;
+            background-color: #F0E0D6;
+            margin: 0 auto 20px auto;
+            width: 90%;
+            max-width: 800px;
+            text-align: left;
+        }
+        .box-title {
+            background-color: #EA8;
+            color: #800000;
+            font-weight: bold;
+            padding: 4px;
+            border-bottom: 1px solid #D9BFB7;
+            text-align: center;
+        }
+        .box-content { padding: 15px; display: flex; justify-content: space-around; flex-wrap: wrap; align-items: flex-start; }
+        .board-category { margin-bottom: 15px; min-width: 160px; }
+        .board-category h3 { margin: 0 0 5px 0; font-size: 11pt; color: #AF0A0F; border-bottom: 1px dashed #D9BFB7; padding-bottom: 2px;}
+        .board-category ul { list-style-type: none; padding: 0; margin: 0; }
+        .board-category li { margin: 3px 0; font-size: 10pt; }
+        .board-category a { color: #0000EE; text-decoration: underline; }
+        .board-category a:hover { color: #DD0000; }
+        
+        /* ======== Board & Thread Styles ======== */
+        .boardBanner { text-align: center; color: #AF0A0F; font-size: 28px; font-weight: bold; letter-spacing: 2px; margin: 15px 0; }
+        #navTop { text-align: right; font-size: 9pt; margin-bottom: 10px; }
+        
+        /* Post Form */
+        .postForm { display: table; margin: 0 auto 20px auto; }
+        .postForm div { display: table-row; }
+        .postForm label { display: table-cell; background-color: #EA8; border: 1px solid #800000; padding: 2px 5px; font-weight: bold; font-size: 10pt; color: #800000; }
+        .postForm input, .postForm textarea { display: table-cell; margin: 2px; width: 300px; font-family: arial, helvetica, sans-serif; }
+        .postForm button { margin-top: 2px; cursor: pointer; }
+        
+        /* Posts */
+        .thread { margin-bottom: 20px; border-bottom: 1px solid #D9BFB7; padding-bottom: 10px; }
+        .postInfo { font-size: 9pt; margin-bottom: 2px; }
+        .nameBlock .name { color: #117743; font-weight: bold; }
+        .dateTime { color: #000; margin: 0 5px; }
+        .postNum a { color: #000; text-decoration: none; cursor: pointer; }
+        .postNum a:hover { color: #DD0000; }
+        
+        .op { display: block; margin-bottom: 10px; }
+        .reply { display: table; background-color: #F0E0D6; border: 1px solid #D9BFB7; padding: 5px; margin: 4px 0 4px 20px; }
+        .postMessage { margin: 10px 10px 10px 20px; color: #000; font-size: 10pt; white-space: pre-wrap; word-wrap: break-word; }
+        
+        /* Greentext */
+        .quote { color: #789922; }
+        .replylink { color: #D00; text-decoration: underline; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Global Top Nav -->
+    <div class="boardList">
+        [ <a href="#/">Home</a> ] 
+        [ <a href="#/sub/">sub</a> / <a href="#/tch/">tch</a> / <a href="#/hw/">hw</a> / <a href="#/cls/">cls</a> ]
+        [ <a href="#/mc/">mc</a> / <a href="#/rbx/">rbx</a> / <a href="#/gac/">gac</a> / <a href="#/stm/">stm</a> ]
+        [ <a href="#/sld/">sld</a> / <a href="#/chat/">chat</a> / <a href="#/yap/">yap</a> / <a href="#/bs/">bs</a> ]
+        [ <a href="#/67/">67</a> / <a href="#/lob/">lob</a> / <a href="#/b/">b</a> / <a href="#/meme/">meme</a> ]
+    </div>
+    <hr>
+
+    <!-- ================= HOME PAGE ================= -->
+    <div id="homePage">
+        <div class="logo-container">
+            <!-- 6-Leaf Clover SVG Logo -->
+            <svg width="60" height="60" viewBox="0 0 100 100" style="vertical-align: middle;">
+                <path d="M 50 60 Q 60 95 40 100" stroke="#4C9141" stroke-width="6" fill="none" stroke-linecap="round"/>
+                <circle cx="50" cy="22" r="16" fill="#4C9141"/>
+                <circle cx="74" cy="36" r="16" fill="#4C9141"/>
+                <circle cx="74" cy="64" r="16" fill="#4C9141"/>
+                <circle cx="50" cy="78" r="16" fill="#4C9141"/>
+                <circle cx="26" cy="64" r="16" fill="#4C9141"/>
+                <circle cx="26" cy="36" r="16" fill="#4C9141"/>
+            </svg>
+            <span class="logo-text">67chan</span>
+        </div>
+        
+        <div class="box">
+            <div class="box-title">Boards</div>
+            <div class="box-content">
+                <div class="board-category">
+                    <h3>School</h3>
+                    <ul>
+                        <li><a href="#/sub/">/sub/ - Subjects</a></li>
+                        <li><a href="#/tch/">/tch/ - Teachers</a></li>
+                        <li><a href="#/hw/">/hw/ - Homework</a></li>
+                        <li><a href="#/cls/">/cls/ - Classmates</a></li>
+                    </ul>
+                </div>
+                <div class="board-category">
+                    <h3>Games</h3>
+                    <ul>
+                        <li><a href="#/mc/">/mc/ - Minecraft</a></li>
+                        <li><a href="#/rbx/">/rbx/ - Roblox</a></li>
+                        <li><a href="#/gac/">/gac/ - Gacha</a></li>
+                        <li><a href="#/stm/">/stm/ - Steam</a></li>
+                    </ul>
+                </div>
+                <div class="board-category">
+                    <h3>Yap</h3>
+                    <ul>
+                        <li><a href="#/sld/">/sld/ - Slander</a></li>
+                        <li><a href="#/chat/">/chat/ - Chat</a></li>
+                        <li><a href="#/yap/">/yap/ - Yap</a></li>
+                        <li><a href="#/bs/">/bs/ - BS</a></li>
+                    </ul>
+                </div>
+                <div class="board-category">
+                    <h3>Other</h3>
+                    <ul>
+                        <li><a href="#/67/">/67/ - 67chan Official</a></li>
+                        <li><a href="#/lob/">/lob/ - Lobby</a></li>
+                        <li><a href="#/b/">/b/ - Random</a></li>
+                        <li><a href="#/meme/">/meme/ - Memes</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <div class="box-title">Stats & Info</div>
+            <div class="box-content" style="font-size: 10pt; display: block; text-align: center;">
+                Welcome to 67chan. All boards are completely anonymous.<br>
+                Use <code>>text</code> to greentext. Click a post number (e.g., No. 12345) to quote it.
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= BOARD / THREAD PAGE ================= -->
+    <div id="boardPage" style="display: none;">
+        <div class="boardBanner">
+            <div id="boardTitle">/67/ - Random</div>
+        </div>
+        <hr>
+
+        <div id="navTop">
+            [<a id="returnLink" href="#" style="display:none;">Return</a>]
+        </div>
+
+        <form id="postForm" class="postForm">
+            <div>
+                <label>Name</label>
+                <input type="text" id="nameInput" placeholder="Anonymous">
+            </div>
+            <div>
+                <label>Comment</label>
+                <textarea id="messageInput" rows="4" required></textarea>
+            </div>
+            <div>
+                <label></label>
+                <button type="submit" id="submitBtn">Post</button>
+            </div>
+        </form>
+        <hr>
+
+        <div id="content"></div>
+    </div>
+
+    <!-- Firebase SDK (v8 compat) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        // ==========================================
+        // Firebase Configuration (Integrated)
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBUsP3TcCdFwBRCu44Y5GF37PyQti3f2bc",
+            authDomain: "chan-4fa7f.firebaseapp.com",
+            databaseURL: "https://chan-4fa7f-default-rtdb.firebaseio.com", // Added for Realtime DB
+            projectId: "chan-4fa7f",
+            storageBucket: "chan-4fa7f.firebasestorage.app",
+            messagingSenderId: "36582340500",
+            appId: "1:36582340500:web:13391c378383d6bff8c181"
+        };
+        // ==========================================
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let currentView = 'home'; // 'home', 'board', 'thread'
+        let currentBoard = null;
+        let currentThread = null;
+        let postsListener = null;
+
+        const boardNames = {
+            'sub': 'Subjects', 'tch': 'Teachers', 'hw': 'Homework', 'cls': 'Classmates',
+            'mc': 'Minecraft', 'rbx': 'Roblox', 'gac': 'Gacha', 'stm': 'Steam',
+            'sld': 'Slander', 'chat': 'Chat', 'yap': 'Yap', 'bs': 'BS',
+            '67': '67chan Official', 'lob': 'Lobby', 'b': 'Random', 'meme': 'Memes'
+        };
+
+        // --- Router ---
+        function parseHash() {
+            const hash = window.location.hash.replace('#', '');
+            const parts = hash.split('/').filter(p => p);
+            
+            if (parts.length === 0) {
+                currentView = 'home';
+                currentBoard = null;
+                currentThread = null;
+            } else {
+                currentBoard = parts[0];
+                if (parts.length >= 3 && parts[1] === 'thread') {
+                    currentThread = parts[2];
+                    currentView = 'thread';
+                } else {
+                    currentThread = null;
+                    currentView = 'board';
+                }
+            }
+            renderPage();
+        }
+
+        window.addEventListener('hashchange', parseHash);
+
+        // --- Render UI ---
+        function renderPage() {
+            if (postsListener) db.ref().off('value', postsListener);
+
+            const homePage = document.getElementById('homePage');
+            const boardPage = document.getElementById('boardPage');
+            const content = document.getElementById('content');
+
+            if (currentView === 'home') {
+                homePage.style.display = 'block';
+                boardPage.style.display = 'none';
+                content.innerHTML = '';
+            } else {
+                homePage.style.display = 'none';
+                boardPage.style.display = 'block';
+                
+                const titleName = boardNames[currentBoard] ? boardNames[currentBoard] : 'Board';
+                document.getElementById('boardTitle').innerText = `/${currentBoard}/ - ${titleName}`;
+                content.innerHTML = '<div style="text-align:center;">Loading...</div>';
+
+                if (currentView === 'thread') {
+                    document.getElementById('submitBtn').innerText = 'Post Reply';
+                    document.getElementById('returnLink').style.display = 'inline';
+                    document.getElementById('returnLink').href = `#/${currentBoard}/`;
+                    loadThread(currentThread);
+                } else {
+                    document.getElementById('submitBtn').innerText = 'New Thread';
+                    document.getElementById('returnLink').style.display = 'none';
+                    loadBoard();
+                }
+            }
+        }
+
+        // --- Load Data ---
+        function loadBoard() {
+            const boardRef = db.ref(`boards/${currentBoard}/threads`);
+            postsListener = boardRef.orderByChild('lastActive').limitToLast(30).on('value', snap => {
+                const content = document.getElementById('content');
+                content.innerHTML = ''; 
+                const threads = [];
+                snap.forEach(child => { threads.push({ id: child.key, ...child.val() }); });
+                
+                if(threads.length === 0) content.innerHTML = '<div style="text-align:center;">No threads yet. Be the first to post!</div>';
+                
+                // Show most recently active threads at the top
+                threads.reverse().forEach(thread => {
+                    content.appendChild(createThreadHTML(thread, false));
+                });
+            });
+        }
+
+        function loadThread(threadId) {
+            const threadRef = db.ref(`boards/${currentBoard}/threads/${threadId}`);
+            postsListener = threadRef.on('value', snap => {
+                const thread = snap.val();
+                const content = document.getElementById('content');
+                content.innerHTML = '';
+                
+                if (!thread) {
+                    content.innerHTML = '<div style="text-align:center;">Thread not found or deleted.</div>';
+                    return;
+                }
+                thread.id = snap.key;
+                content.appendChild(createThreadHTML(thread, true));
+            });
+        }
+
+        // --- Formatting ---
+        function formatMessage(msg) {
+            let safeMsg = msg.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            // 绿字解析 (Greentext)
+            safeMsg = safeMsg.replace(/^(&gt;.*)$/gm, '<span class="quote">$1</span>'); 
+            // 安卡引用链接 (>>postNum)
+            safeMsg = safeMsg.replace(/&gt;&gt;(\d+)/g, '<a class="replylink" onclick="quotePost(\'$1\')">>>$1</a>'); 
+            return safeMsg;
+        }
+
+        window.quotePost = function(postNum) {
+            const input = document.getElementById('messageInput');
+            input.value += `>>${postNum}\n`;
+            input.focus();
+        };
+
+        function createPostHTML(post, isOp, threadId) {
+            const div = document.createElement('div');
+            div.className = isOp ? 'op' : 'reply';
+            div.id = `p${post.postNum}`;
+
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'postInfo';
+
+            const nameBlock = document.createElement('span');
+            nameBlock.className = 'nameBlock';
+            nameBlock.innerHTML = `<span class="name">${post.name}</span>`;
+
+            const dateSpan = document.createElement('span');
+            dateSpan.className = 'dateTime';
+            dateSpan.innerText = post.timestamp;
+
+            const numSpan = document.createElement('span');
+            numSpan.className = 'postNum';
+            numSpan.innerHTML = `No. <a onclick="quotePost('${post.postNum}')">${post.postNum}</a>`;
+
+            infoDiv.appendChild(nameBlock);
+            infoDiv.appendChild(dateSpan);
+            infoDiv.appendChild(numSpan);
+
+            if (isOp && currentView !== 'thread') {
+                const replyBtn = document.createElement('span');
+                replyBtn.innerHTML = ` &nbsp; [<a href="#/${currentBoard}/thread/${threadId}">Reply</a>]`;
+                infoDiv.appendChild(replyBtn);
+            }
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'postMessage';
+            msgDiv.innerHTML = formatMessage(post.message);
+
+            div.appendChild(infoDiv);
+            div.appendChild(msgDiv);
+            return div;
+        }
+
+        function createThreadHTML(thread, fullView) {
+            const threadDiv = document.createElement('div');
+            threadDiv.className = 'thread';
+            threadDiv.id = `t${thread.id}`;
+
+            const opData = { name: thread.name, message: thread.message, timestamp: thread.timestamp, postNum: thread.postNum };
+            threadDiv.appendChild(createPostHTML(opData, true, thread.id));
+
+            if (thread.replies) {
+                const replyKeys = Object.keys(thread.replies);
+                const repliesToShow = fullView ? replyKeys : replyKeys.slice(-3);
+                
+                if (!fullView && replyKeys.length > 3) {
+                    const omitted = document.createElement('span');
+                    omitted.className = 'postInfo';
+                    omitted.style.display = 'block';
+                    omitted.style.marginLeft = '20px';
+                    omitted.style.color = '#707070';
+                    omitted.innerText = `${replyKeys.length - 3} replies omitted. Click Reply to view.`;
+                    threadDiv.appendChild(omitted);
+                }
+
+                repliesToShow.forEach(key => {
+                    threadDiv.appendChild(createPostHTML(thread.replies[key], false, thread.id));
+                });
+            }
+            return threadDiv;
+        }
+
+        // --- Post Submission ---
+        document.getElementById('postForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let name = document.getElementById('nameInput').value.trim() || 'Anonymous';
+            const message = document.getElementById('messageInput').value.trim();
+            if (!message) return;
+
+            const now = new Date();
+            const timestamp = now.toLocaleDateString('en-US') + ' ' + now.toLocaleTimeString('en-US');
+            const postNum = Math.floor(Math.random() * 90000000) + 10000000; // Random 8 digit post ID
+
+            const postData = {
+                name: name,
+                message: message,
+                timestamp: timestamp,
+                postNum: postNum,
+                createdAt: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            if (currentView === 'thread') {
+                // Reply to Thread
+                db.ref(`boards/${currentBoard}/threads/${currentThread}/replies`).push(postData);
+                db.ref(`boards/${currentBoard}/threads/${currentThread}/lastActive`).set(firebase.database.ServerValue.TIMESTAMP);
+            } else {
+                // New Thread
+                postData.lastActive = firebase.database.ServerValue.TIMESTAMP;
+                db.ref(`boards/${currentBoard}/threads`).push(postData);
+            }
+
+            document.getElementById('messageInput').value = '';
+        });
+
+        // Initialize on load
+        parseHash();
+    </script>
+</body>
+</html>
