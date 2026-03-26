@@ -201,15 +201,15 @@
         // ==========================================
         // Firebase Configuration (Integrated)
         // ==========================================
-        const firebaseConfig = {
-            apiKey: "AIzaSyBUsP3TcCdFwBRCu44Y5GF37PyQti3f2bc",
-            authDomain: "chan-4fa7f.firebaseapp.com",
-            databaseURL: "https://chan-4fa7f-default-rtdb.firebaseio.com", // Added for Realtime DB
-            projectId: "chan-4fa7f",
-            storageBucket: "chan-4fa7f.firebasestorage.app",
-            messagingSenderId: "36582340500",
-            appId: "1:36582340500:web:13391c378383d6bff8c181"
-        };
+    const firebaseConfig = {
+        apiKey: "AIzaSyBUsP3TcCdFwBRCu44Y5GF37PyQti3f2bc",
+        authDomain: "chan-4fa7f.firebaseapp.com",
+        databaseURL: "https://chan-4fa7f-default-rtdb.asia-southeast1.firebasedatabase.app", // ✅ 正确：亚太节点
+        projectId: "chan-4fa7f",
+        storageBucket: "chan-4fa7f.firebasestorage.app",
+        messagingSenderId: "36582340500",
+        appId: "1:36582340500:web:13391c378383d6bff8c181"
+    };
         // ==========================================
 
         firebase.initializeApp(firebaseConfig);
