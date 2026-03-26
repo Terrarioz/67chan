@@ -64,7 +64,7 @@
         .postForm { display: table; margin: 0 auto 20px auto; }
         .postForm div { display: table-row; }
         .postForm label { display: table-cell; background-color: #EA8; border: 1px solid #800000; padding: 2px 5px; font-weight: bold; font-size: 10pt; color: #800000; }
-        .postForm input[type="text"], .postForm textarea { display: table-cell; margin: 2px; width: 300px; font-family: arial, helvetica, sans-serif; }
+        .postForm input[type="text"], .postForm textarea, .postForm input[type="file"] { display: table-cell; margin: 2px; width: 300px; font-family: arial, helvetica, sans-serif; }
         .postForm button { margin-top: 2px; cursor: pointer; }
         
         /* Posts */
@@ -78,6 +78,10 @@
         .op { display: block; margin-bottom: 10px; overflow: hidden; }
         .reply { display: table; background-color: #F0E0D6; border: 1px solid #D9BFB7; padding: 5px; margin: 4px 0 4px 20px; overflow: hidden; }
         
+        /* Image styling */
+        .fileText { font-size: 9pt; margin-bottom: 5px; display: block; }
+        .fileText a { text-decoration: underline; }
+        .postImage { float: left; margin: 5px 20px 10px 5px; max-width: 250px; max-height: 250px; cursor: pointer; }
         .postMessage { margin: 10px 10px 10px 20px; color: #000; font-size: 10pt; white-space: pre-wrap; word-wrap: break-word; overflow: hidden; }
         
         /* Greentext */
@@ -91,7 +95,7 @@
     <div class="boardList">
         [ <a href="#/">Home</a> ] 
         [ <a href="#/sub/">sub</a> / <a href="#/tch/">tch</a> / <a href="#/hw/">hw</a> / <a href="#/cls/">cls</a> ]
-        [ <a href="#/mc/">mc</a> / <a href="#/rbx/">rbx</a> / <a href="#/gac/">gac</a> / <a href="#/stm/">stm</a> ]
+        [ <a href="#/mc/">mc</a> / <a href="#/anm/">anm</a> / <a href="#/gac/">gac</a> / <a href="#/stm/">stm</a> ]
         [ <a href="#/sld/">sld</a> / <a href="#/chat/">chat</a> / <a href="#/adv/">adv</a> / <a href="#/bs/">bs</a> ]
         [ <a href="#/67/">67</a> / <a href="#/lob/">lob</a> / <a href="#/b/">b</a> / <a href="#/meme/">meme</a> ]
     </div>
@@ -129,7 +133,7 @@
                     <h3>Games</h3>
                     <ul>
                         <li><a href="#/mc/">/mc/ - Minecraft</a></li>
-                        <li><a href="#/rbx/">/rbx/ - Roblox</a></li>
+                        <li><a href="#/anm/">/anm/ - Anime</a></li>
                         <li><a href="#/gac/">/gac/ - Gacha</a></li>
                         <li><a href="#/stm/">/stm/ - Steam</a></li>
                     </ul>
@@ -159,7 +163,7 @@
             <div class="box-title">Stats & Info</div>
             <div class="box-content" style="font-size: 10pt; display: block; text-align: center;">
                 Welcome to 67chan. All boards are completely anonymous.<br>
-                Use <code>>text</code> to greentext. Click a post number (e.g., No. 12345) to quote it.
+                Use <code>>text</code> to greentext. Click a post number (e.g., No. 12345) to quote it. Warning : Image Upload is currently still in development. Please do not uploadany files as it will NOT success.
             </div>
         </div>
     </div>
@@ -185,6 +189,10 @@
                 <textarea id="messageInput" rows="4"></textarea>
             </div>
             <div>
+                <label>File</label>
+                <input type="file" id="imageInput" accept="image/*">
+            </div>
+            <div>
                 <label></label>
                 <button type="submit" id="submitBtn" disabled>Post</button>
             </div>
@@ -197,6 +205,7 @@
     <!-- Firebase SDK (v8 compat) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
     <script>
         // ==========================================
@@ -215,6 +224,7 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+        const storage = firebase.storage();
 
         let currentView = 'home'; // 'home', 'board', 'thread'
         let currentBoard = null;
@@ -223,19 +233,21 @@
 
         const boardNames = {
             'sub': 'Subjects', 'tch': 'Teachers', 'hw': 'Homework', 'cls': 'Classmates',
-            'mc': 'Minecraft', 'rbx': 'Roblox', 'gac': 'Gacha', 'stm': 'Steam',
+            'mc': 'Minecraft', 'anm': 'Anime', 'gac': 'Gacha', 'stm': 'Steam',
             'sld': 'Slander', 'chat': 'Chat', 'adv': 'Advice', 'bs': 'BS',
             '67': '67chan Official', 'lob': 'Lobby', 'b': 'Random', 'meme': 'Memes'
         };
 
-        // Validate form requirements (Need text)
+        // Validate form requirements (Need either text or image)
         const checkFormValidity = () => {
             const msg = document.getElementById('messageInput').value.trim();
+            const file = document.getElementById('imageInput').files.length > 0;
             const btn = document.getElementById('submitBtn');
-            btn.disabled = !msg;
+            btn.disabled = !(msg || file);
         };
         
         document.getElementById('messageInput').addEventListener('input', checkFormValidity);
+        document.getElementById('imageInput').addEventListener('change', checkFormValidity);
 
         // --- Router ---
         function parseHash() {
@@ -344,6 +356,16 @@
             checkFormValidity();
         };
 
+        function toggleImageSize(imgElement) {
+            if (imgElement.style.maxWidth === '100%') {
+                imgElement.style.maxWidth = '250px';
+                imgElement.style.maxHeight = '250px';
+            } else {
+                imgElement.style.maxWidth = '100%';
+                imgElement.style.maxHeight = 'none';
+            }
+        }
+
         function createPostHTML(post, isOp, threadId) {
             const div = document.createElement('div');
             div.className = isOp ? 'op' : 'reply';
@@ -370,4 +392,139 @@
 
             if (isOp && currentView !== 'thread') {
                 const replyBtn = document.createElement('span');
-                replyBtn.innerHTML =
+                replyBtn.innerHTML = ` &nbsp; [<a href="#/${currentBoard}/thread/${threadId}">Reply</a>]`;
+                infoDiv.appendChild(replyBtn);
+            }
+            
+            div.appendChild(infoDiv);
+
+            // Add Image if exists
+            if (post.imageUrl) {
+                const fileInfo = document.createElement('div');
+                fileInfo.className = 'fileText';
+                fileInfo.innerHTML = `File: <a href="${post.imageUrl}" target="_blank" rel="noopener">${post.imageName || 'image'}</a>`;
+                
+                const img = document.createElement('img');
+                img.src = post.imageUrl;
+                img.className = 'postImage';
+                img.onclick = function() { toggleImageSize(this); };
+                
+                div.appendChild(fileInfo);
+                div.appendChild(img);
+            }
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'postMessage';
+            msgDiv.innerHTML = formatMessage(post.message);
+            div.appendChild(msgDiv);
+
+            return div;
+        }
+
+        function createThreadHTML(thread, fullView) {
+            const threadDiv = document.createElement('div');
+            threadDiv.className = 'thread';
+            threadDiv.id = `t${thread.id}`;
+
+            const opData = { 
+                name: thread.name, 
+                message: thread.message, 
+                timestamp: thread.timestamp, 
+                postNum: thread.postNum,
+                imageUrl: thread.imageUrl,
+                imageName: thread.imageName
+            };
+            threadDiv.appendChild(createPostHTML(opData, true, thread.id));
+
+            if (thread.replies) {
+                const replyKeys = Object.keys(thread.replies);
+                const repliesToShow = fullView ? replyKeys : replyKeys.slice(-3);
+                
+                if (!fullView && replyKeys.length > 3) {
+                    const omitted = document.createElement('span');
+                    omitted.className = 'postInfo';
+                    omitted.style.display = 'block';
+                    omitted.style.marginLeft = '20px';
+                    omitted.style.color = '#707070';
+                    omitted.innerText = `${replyKeys.length - 3} replies omitted. Click Reply to view.`;
+                    threadDiv.appendChild(omitted);
+                }
+
+                repliesToShow.forEach(key => {
+                    threadDiv.appendChild(createPostHTML(thread.replies[key], false, thread.id));
+                });
+            }
+            return threadDiv;
+        }
+
+        // --- Post Submission ---
+        document.getElementById('postForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = 'Posting...';
+
+            let name = document.getElementById('nameInput').value.trim() || 'Anonymous';
+            const message = document.getElementById('messageInput').value.trim();
+            const fileInput = document.getElementById('imageInput');
+            const file = fileInput.files[0];
+
+            if (!message && !file) {
+                btn.disabled = false;
+                btn.innerText = 'Post';
+                return;
+            }
+
+            const now = new Date();
+            const timestamp = now.toLocaleDateString('en-US') + ' ' + now.toLocaleTimeString('en-US');
+            const postNum = Math.floor(Math.random() * 90000000) + 10000000;
+
+            const postData = {
+                name: name,
+                message: message,
+                timestamp: timestamp,
+                postNum: postNum,
+                createdAt: firebase.database.ServerValue.TIMESTAMP
+            };
+
+            const finalizePost = () => {
+                if (currentView === 'thread') {
+                    db.ref(`boards/${currentBoard}/threads/${currentThread}/replies`).push(postData);
+                    db.ref(`boards/${currentBoard}/threads/${currentThread}/lastActive`).set(firebase.database.ServerValue.TIMESTAMP);
+                } else {
+                    postData.lastActive = firebase.database.ServerValue.TIMESTAMP;
+                    db.ref(`boards/${currentBoard}/threads`).push(postData);
+                }
+
+                document.getElementById('messageInput').value = '';
+                document.getElementById('imageInput').value = '';
+                btn.disabled = true;
+                btn.innerText = currentView === 'thread' ? 'Post Reply' : 'New Thread';
+            };
+
+            if (file) {
+                const storageRef = storage.ref();
+                const fileRef = storageRef.child(`images/${currentBoard}/${Date.now()}_${file.name}`);
+                try {
+                    const snapshot = await fileRef.put(file);
+                    const url = await snapshot.ref.getDownloadURL();
+                    postData.imageUrl = url;
+                    postData.imageName = file.name;
+                    finalizePost();
+                } catch (error) {
+                    console.error("Image upload failed:", error);
+                    alert("Image upload failed. Please try again.");
+                    btn.disabled = false;
+                    btn.innerText = 'Post';
+                }
+            } else {
+                finalizePost();
+            }
+        });
+
+        // Initialize on load
+        parseHash();
+    </script>
+</body>
+</html>
