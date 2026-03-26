@@ -64,20 +64,25 @@
         .postForm { display: table; margin: 0 auto 20px auto; }
         .postForm div { display: table-row; }
         .postForm label { display: table-cell; background-color: #EA8; border: 1px solid #800000; padding: 2px 5px; font-weight: bold; font-size: 10pt; color: #800000; }
-        .postForm input, .postForm textarea { display: table-cell; margin: 2px; width: 300px; font-family: arial, helvetica, sans-serif; }
+        .postForm input[type="text"], .postForm textarea, .postForm input[type="file"] { display: table-cell; margin: 2px; width: 300px; font-family: arial, helvetica, sans-serif; }
         .postForm button { margin-top: 2px; cursor: pointer; }
         
         /* Posts */
-        .thread { margin-bottom: 20px; border-bottom: 1px solid #D9BFB7; padding-bottom: 10px; }
+        .thread { margin-bottom: 20px; border-bottom: 1px solid #D9BFB7; padding-bottom: 10px; clear: both; overflow: hidden; }
         .postInfo { font-size: 9pt; margin-bottom: 2px; }
         .nameBlock .name { color: #117743; font-weight: bold; }
         .dateTime { color: #000; margin: 0 5px; }
         .postNum a { color: #000; text-decoration: none; cursor: pointer; }
         .postNum a:hover { color: #DD0000; }
         
-        .op { display: block; margin-bottom: 10px; }
-        .reply { display: table; background-color: #F0E0D6; border: 1px solid #D9BFB7; padding: 5px; margin: 4px 0 4px 20px; }
-        .postMessage { margin: 10px 10px 10px 20px; color: #000; font-size: 10pt; white-space: pre-wrap; word-wrap: break-word; }
+        .op { display: block; margin-bottom: 10px; overflow: hidden; }
+        .reply { display: table; background-color: #F0E0D6; border: 1px solid #D9BFB7; padding: 5px; margin: 4px 0 4px 20px; overflow: hidden; }
+        
+        /* Image styling */
+        .fileText { font-size: 9pt; margin-bottom: 5px; display: block; }
+        .fileText a { text-decoration: underline; }
+        .postImage { float: left; margin: 5px 20px 10px 5px; max-width: 250px; max-height: 250px; cursor: pointer; }
+        .postMessage { margin: 10px 10px 10px 20px; color: #000; font-size: 10pt; white-space: pre-wrap; word-wrap: break-word; overflow: hidden; }
         
         /* Greentext */
         .quote { color: #789922; }
@@ -91,7 +96,7 @@
         [ <a href="#/">Home</a> ] 
         [ <a href="#/sub/">sub</a> / <a href="#/tch/">tch</a> / <a href="#/hw/">hw</a> / <a href="#/cls/">cls</a> ]
         [ <a href="#/mc/">mc</a> / <a href="#/rbx/">rbx</a> / <a href="#/gac/">gac</a> / <a href="#/stm/">stm</a> ]
-        [ <a href="#/sld/">sld</a> / <a href="#/chat/">chat</a> / <a href="#/yap/">yap</a> / <a href="#/bs/">bs</a> ]
+        [ <a href="#/sld/">sld</a> / <a href="#/chat/">chat</a> / <a href="#/adv/">adv</a> / <a href="#/bs/">bs</a> ]
         [ <a href="#/67/">67</a> / <a href="#/lob/">lob</a> / <a href="#/b/">b</a> / <a href="#/meme/">meme</a> ]
     </div>
     <hr>
@@ -99,15 +104,15 @@
     <!-- ================= HOME PAGE ================= -->
     <div id="homePage">
         <div class="logo-container">
-            <!-- 6-Leaf Clover SVG Logo -->
+            <!-- 6-Leaf Clover SVG Logo (4chan style copy) -->
             <svg width="60" height="60" viewBox="0 0 100 100" style="vertical-align: middle;">
-                <path d="M 50 60 Q 60 95 40 100" stroke="#4C9141" stroke-width="6" fill="none" stroke-linecap="round"/>
-                <circle cx="50" cy="22" r="16" fill="#4C9141"/>
-                <circle cx="74" cy="36" r="16" fill="#4C9141"/>
-                <circle cx="74" cy="64" r="16" fill="#4C9141"/>
-                <circle cx="50" cy="78" r="16" fill="#4C9141"/>
-                <circle cx="26" cy="64" r="16" fill="#4C9141"/>
-                <circle cx="26" cy="36" r="16" fill="#4C9141"/>
+                <path d="M 50 50 Q 65 95 45 100" stroke="#84A759" stroke-width="8" fill="none" stroke-linecap="round"/>
+                <circle cx="50" cy="24" r="16" fill="#84A759"/>
+                <circle cx="72" cy="36" r="16" fill="#84A759"/>
+                <circle cx="72" cy="62" r="16" fill="#84A759"/>
+                <circle cx="50" cy="74" r="16" fill="#84A759"/>
+                <circle cx="28" cy="62" r="16" fill="#84A759"/>
+                <circle cx="28" cy="36" r="16" fill="#84A759"/>
             </svg>
             <span class="logo-text">67chan</span>
         </div>
@@ -134,11 +139,11 @@
                     </ul>
                 </div>
                 <div class="board-category">
-                    <h3>Yap</h3>
+                    <h3>Advice</h3>
                     <ul>
                         <li><a href="#/sld/">/sld/ - Slander</a></li>
                         <li><a href="#/chat/">/chat/ - Chat</a></li>
-                        <li><a href="#/yap/">/yap/ - Yap</a></li>
+                        <li><a href="#/adv/">/adv/ - Advice</a></li>
                         <li><a href="#/bs/">/bs/ - BS</a></li>
                     </ul>
                 </div>
@@ -158,7 +163,7 @@
             <div class="box-title">Stats & Info</div>
             <div class="box-content" style="font-size: 10pt; display: block; text-align: center;">
                 Welcome to 67chan. All boards are completely anonymous.<br>
-                Use <code>>text</code> to greentext. Click a post number (e.g., No. 12345) to quote it.
+                Use <code>>text</code> to greentext. Click a post number (e.g., No. 12345) to quote it. Image uploads are supported.
             </div>
         </div>
     </div>
@@ -181,11 +186,15 @@
             </div>
             <div>
                 <label>Comment</label>
-                <textarea id="messageInput" rows="4" required></textarea>
+                <textarea id="messageInput" rows="4"></textarea>
+            </div>
+            <div>
+                <label>File</label>
+                <input type="file" id="imageInput" accept="image/*">
             </div>
             <div>
                 <label></label>
-                <button type="submit" id="submitBtn">Post</button>
+                <button type="submit" id="submitBtn" disabled>Post</button>
             </div>
         </form>
         <hr>
@@ -196,24 +205,26 @@
     <!-- Firebase SDK (v8 compat) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
     <script>
         // ==========================================
         // Firebase Configuration (Integrated)
         // ==========================================
-    const firebaseConfig = {
-        apiKey: "AIzaSyBUsP3TcCdFwBRCu44Y5GF37PyQti3f2bc",
-        authDomain: "chan-4fa7f.firebaseapp.com",
-        databaseURL: "https://chan-4fa7f-default-rtdb.asia-southeast1.firebasedatabase.app", // ✅ 正确：亚太节点
-        projectId: "chan-4fa7f",
-        storageBucket: "chan-4fa7f.firebasestorage.app",
-        messagingSenderId: "36582340500",
-        appId: "1:36582340500:web:13391c378383d6bff8c181"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyBUsP3TcCdFwBRCu44Y5GF37PyQti3f2bc",
+            authDomain: "chan-4fa7f.firebaseapp.com",
+            databaseURL: "https://chan-4fa7f-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "chan-4fa7f",
+            storageBucket: "chan-4fa7f.firebasestorage.app",
+            messagingSenderId: "36582340500",
+            appId: "1:36582340500:web:13391c378383d6bff8c181"
+        };
         // ==========================================
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
+        const storage = firebase.storage();
 
         let currentView = 'home'; // 'home', 'board', 'thread'
         let currentBoard = null;
@@ -223,9 +234,20 @@
         const boardNames = {
             'sub': 'Subjects', 'tch': 'Teachers', 'hw': 'Homework', 'cls': 'Classmates',
             'mc': 'Minecraft', 'rbx': 'Roblox', 'gac': 'Gacha', 'stm': 'Steam',
-            'sld': 'Slander', 'chat': 'Chat', 'yap': 'Yap', 'bs': 'BS',
+            'sld': 'Slander', 'chat': 'Chat', 'adv': 'Advice', 'bs': 'BS',
             '67': '67chan Official', 'lob': 'Lobby', 'b': 'Random', 'meme': 'Memes'
         };
+
+        // Validate form requirements (Need either text or image)
+        const checkFormValidity = () => {
+            const msg = document.getElementById('messageInput').value.trim();
+            const file = document.getElementById('imageInput').files.length > 0;
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = !(msg || file);
+        };
+        
+        document.getElementById('messageInput').addEventListener('input', checkFormValidity);
+        document.getElementById('imageInput').addEventListener('change', checkFormValidity);
 
         // --- Router ---
         function parseHash() {
@@ -247,6 +269,7 @@
                 }
             }
             renderPage();
+            checkFormValidity();
         }
 
         window.addEventListener('hashchange', parseHash);
@@ -295,7 +318,6 @@
                 
                 if(threads.length === 0) content.innerHTML = '<div style="text-align:center;">No threads yet. Be the first to post!</div>';
                 
-                // Show most recently active threads at the top
                 threads.reverse().forEach(thread => {
                     content.appendChild(createThreadHTML(thread, false));
                 });
@@ -320,10 +342,9 @@
 
         // --- Formatting ---
         function formatMessage(msg) {
+            if(!msg) return '';
             let safeMsg = msg.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-            // 绿字解析 (Greentext)
             safeMsg = safeMsg.replace(/^(&gt;.*)$/gm, '<span class="quote">$1</span>'); 
-            // 安卡引用链接 (>>postNum)
             safeMsg = safeMsg.replace(/&gt;&gt;(\d+)/g, '<a class="replylink" onclick="quotePost(\'$1\')">>>$1</a>'); 
             return safeMsg;
         }
@@ -332,7 +353,18 @@
             const input = document.getElementById('messageInput');
             input.value += `>>${postNum}\n`;
             input.focus();
+            checkFormValidity();
         };
+
+        function toggleImageSize(imgElement) {
+            if (imgElement.style.maxWidth === '100%') {
+                imgElement.style.maxWidth = '250px';
+                imgElement.style.maxHeight = '250px';
+            } else {
+                imgElement.style.maxWidth = '100%';
+                imgElement.style.maxHeight = 'none';
+            }
+        }
 
         function createPostHTML(post, isOp, threadId) {
             const div = document.createElement('div');
@@ -363,13 +395,29 @@
                 replyBtn.innerHTML = ` &nbsp; [<a href="#/${currentBoard}/thread/${threadId}">Reply</a>]`;
                 infoDiv.appendChild(replyBtn);
             }
+            
+            div.appendChild(infoDiv);
+
+            // Add Image if exists
+            if (post.imageUrl) {
+                const fileInfo = document.createElement('div');
+                fileInfo.className = 'fileText';
+                fileInfo.innerHTML = `File: <a href="${post.imageUrl}" target="_blank" rel="noopener">${post.imageName || 'image'}</a>`;
+                
+                const img = document.createElement('img');
+                img.src = post.imageUrl;
+                img.className = 'postImage';
+                img.onclick = function() { toggleImageSize(this); };
+                
+                div.appendChild(fileInfo);
+                div.appendChild(img);
+            }
 
             const msgDiv = document.createElement('div');
             msgDiv.className = 'postMessage';
             msgDiv.innerHTML = formatMessage(post.message);
-
-            div.appendChild(infoDiv);
             div.appendChild(msgDiv);
+
             return div;
         }
 
@@ -378,7 +426,14 @@
             threadDiv.className = 'thread';
             threadDiv.id = `t${thread.id}`;
 
-            const opData = { name: thread.name, message: thread.message, timestamp: thread.timestamp, postNum: thread.postNum };
+            const opData = { 
+                name: thread.name, 
+                message: thread.message, 
+                timestamp: thread.timestamp, 
+                postNum: thread.postNum,
+                imageUrl: thread.imageUrl,
+                imageName: thread.imageName
+            };
             threadDiv.appendChild(createPostHTML(opData, true, thread.id));
 
             if (thread.replies) {
@@ -403,16 +458,27 @@
         }
 
         // --- Post Submission ---
-        document.getElementById('postForm').addEventListener('submit', function(e) {
+        document.getElementById('postForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = 'Posting...';
+
             let name = document.getElementById('nameInput').value.trim() || 'Anonymous';
             const message = document.getElementById('messageInput').value.trim();
-            if (!message) return;
+            const fileInput = document.getElementById('imageInput');
+            const file = fileInput.files[0];
+
+            if (!message && !file) {
+                btn.disabled = false;
+                btn.innerText = 'Post';
+                return;
+            }
 
             const now = new Date();
             const timestamp = now.toLocaleDateString('en-US') + ' ' + now.toLocaleTimeString('en-US');
-            const postNum = Math.floor(Math.random() * 90000000) + 10000000; // Random 8 digit post ID
+            const postNum = Math.floor(Math.random() * 90000000) + 10000000;
 
             const postData = {
                 name: name,
@@ -422,17 +488,39 @@
                 createdAt: firebase.database.ServerValue.TIMESTAMP
             };
 
-            if (currentView === 'thread') {
-                // Reply to Thread
-                db.ref(`boards/${currentBoard}/threads/${currentThread}/replies`).push(postData);
-                db.ref(`boards/${currentBoard}/threads/${currentThread}/lastActive`).set(firebase.database.ServerValue.TIMESTAMP);
-            } else {
-                // New Thread
-                postData.lastActive = firebase.database.ServerValue.TIMESTAMP;
-                db.ref(`boards/${currentBoard}/threads`).push(postData);
-            }
+            const finalizePost = () => {
+                if (currentView === 'thread') {
+                    db.ref(`boards/${currentBoard}/threads/${currentThread}/replies`).push(postData);
+                    db.ref(`boards/${currentBoard}/threads/${currentThread}/lastActive`).set(firebase.database.ServerValue.TIMESTAMP);
+                } else {
+                    postData.lastActive = firebase.database.ServerValue.TIMESTAMP;
+                    db.ref(`boards/${currentBoard}/threads`).push(postData);
+                }
 
-            document.getElementById('messageInput').value = '';
+                document.getElementById('messageInput').value = '';
+                document.getElementById('imageInput').value = '';
+                btn.disabled = true;
+                btn.innerText = currentView === 'thread' ? 'Post Reply' : 'New Thread';
+            };
+
+            if (file) {
+                const storageRef = storage.ref();
+                const fileRef = storageRef.child(`images/${currentBoard}/${Date.now()}_${file.name}`);
+                try {
+                    const snapshot = await fileRef.put(file);
+                    const url = await snapshot.ref.getDownloadURL();
+                    postData.imageUrl = url;
+                    postData.imageName = file.name;
+                    finalizePost();
+                } catch (error) {
+                    console.error("Image upload failed:", error);
+                    alert("Image upload failed. Please try again.");
+                    btn.disabled = false;
+                    btn.innerText = 'Post';
+                }
+            } else {
+                finalizePost();
+            }
         });
 
         // Initialize on load
